@@ -6,12 +6,10 @@ export function middleware(req) {
 
   const token = cookies.get('token')?.value;
 
-
-  if (!token) {
+  if (!token) {    
     const loginUrl = new URL('/login', req.nextUrl.origin);
     return NextResponse.redirect(loginUrl);
   }
-
 
   return NextResponse.next();
 }

@@ -4,9 +4,17 @@ import Link from 'next/link';
 import React, { useEffect, useState }  from 'react'
 import { FaArrowRight } from "react-icons/fa6";
 import jwtDecode from 'jwt-decode';
+import { useAccount } from '@/context/ProfileContext';
 
 const Dashboard = () => {
   const [email, setEmail] = useState(null);
+  const { accountDetails, fetchAccountDetails } = useAccount();
+
+  useEffect(() => {
+    fetchAccountDetails();
+  }, []); 
+
+  if (!accountDetails) return <p>Loading...</p>;
 
 
   return (
@@ -21,12 +29,12 @@ const Dashboard = () => {
 
         <div className='flex flex-row text-white gap-x-4 justify-end'>
           <Link href="" > Ver tarjetas</Link>
-          <Link href="" > Ver CVU </Link>
+          <Link href="" > Ver CVU : {accountDetails?.cvu} </Link>
         </div>
 
         <article className='flex flex-col text-white '>
         <h4 className='text-lg mb-2'> Dinero Disponible </h4>
-        <p className='border border-greenlime w-[80%] text-3xl text-center rounded-3xl p-2 font-semibold'> $ 6.857.529,72 </p>
+        <p className='border border-greenlime w-[80%] text-3xl text-center rounded-3xl p-2 font-semibold'> $ {accountDetails?.available_amount} </p>
         </article>       
 
       </section>

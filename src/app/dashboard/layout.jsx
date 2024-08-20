@@ -1,16 +1,20 @@
+'use client'
 import MenuLogued from '@/components/MenuLogued'
-import Cookies from 'js-cookie'
 import React from 'react'
 
-const Dashboard = async({ children }) => {
+import { useAuth } from '@/context/AuthContex';
 
-    const token = await Cookies.get("authToken")
-    console.log(token)
+const Dashboard = ({ children }) => {   
+
+    const { user } = useAuth()
+
+    
+    console.log("DATA:" , user?.username)
 
     return (
         <section className="grid grid-cols-12 w-full max-w-[1920px] mx-auto rounded-xl bg-lime-200 relative overflow-hidden overflow-y-scroll h-[100%]">
 
-            <MenuLogued link="register" text="Registrate" />
+            <MenuLogued link="register" text={user?.username} />
 
             <nav className='hidden lg:grid lg:col-span-3 xl:col-span-2 bg-greenlime h-[100%]'>
                 a 

@@ -1,7 +1,10 @@
 'use client'
-import React, { createContext, useContext, useState } from 'react'
+import React, { createContext, useContext, useEffect, useState } from 'react'
 import { loginRequest, registerRequest } from '@/axios/Auth'
 import { useRouter } from 'next/navigation'
+import Cookies from 'js-cookie'
+import { jwtDecode } from "jwt-decode";
+import { getAccountDetails, userIdRequest } from '@/axios/profile'
 
 const AuthContext = createContext()
 
@@ -18,6 +21,7 @@ export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false)
     const [errorsResponse, setErrorResponse] = useState(null)
     const [loading, setLoading] = useState(true)
+    const [token, setToken] = useState(null);
     const router = useRouter()
 
 
@@ -36,18 +40,34 @@ export const AuthProvider = ({ children }) => {
     const signIn = async (user) => {
         try {
             const res = await loginRequest(user)
-            console.log("El valor de data fue:", res)
-            setUser(res.data)
-            setIsAuthenticated(true)
-            setErrorResponse(null)
+            console.log("El valor de data fue:", res.data.token)
             router.push("/dashboard")
         } catch (error) {            
             console.log(error.response?.data)
             setErrorResponse("Credenciales inválidas")
         }
     }
+
+ 
+   
+
+    useEffect(() => {       
+        const storedToken = Cookies.get("token");
+        console.log(storedToken)
+        if (storedToken) {
+            try {             
+                const decodedData = jwtDecode(storedToken);
+                console.log("Decoded JWT Data:", decodedData);
+                setUser(decodedData);
+            } catch (error) {
+                console.error("Invalid token:", error);
+            }
+            setToken(storedToken);
+        }
+    }, []);
+
     return (
-        <AuthContext.Provider value={{ signUp, signIn, setErrorResponse, errorsResponse, user, isAuthenticated, isAuthenticated, loading }}>
+        <AuthContext.Provider value={{ signUp, signIn ,setErrorResponse, errorsResponse, user, isAuthenticated, isAuthenticated, loading }}>
             {children}
         </AuthContext.Provider>
     )

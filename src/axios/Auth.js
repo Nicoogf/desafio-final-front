@@ -12,8 +12,7 @@ export const loginRequest = async (userData) => {
         const response = await axios.post('/login', userData);
         console.log(response)
     
-        const token = response.data.token;
-    
+        const token = response.data.token;    
      
         Cookies.set('token', token, {
           expires: 1,      
