@@ -13,7 +13,7 @@ const MenuLogued = ({text}) => {
       <Image src={LogoOn} alt="Logo Digital Money" className='w-16 object-contain ml-4' />
       <section className='flex items-center'>
        <Link href="/dashboard"className='bg-greenlime text-graydark rounded-lg px-3 py-2 font-semibold mr-4'> {text} </Link>
-       <GiHamburgerMenu className='text-greenlime text-4xl cursor-pointer'/>
+       <GiHamburgerMenu className='text-greenlime text-4xl cursor-pointer lg:hidden'/>
       </section>
       
 

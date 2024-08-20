@@ -3,16 +3,18 @@ import Cookies from 'js-cookie';
 import Link from 'next/link';
 import React, { useEffect, useState }  from 'react'
 import { FaArrowRight } from "react-icons/fa6";
-import jwtDecode from 'jwt-decode';
 import { useAccount } from '@/context/ProfileContext';
+import { useTransaction } from '@/context/transactionContext';
 
 const Dashboard = () => {
-  const [email, setEmail] = useState(null);
-  const { accountDetails, fetchAccountDetails } = useAccount();
+  const { accountDetails, fetchAccountDetails  } = useAccount();
+  const { transactions,error } = useTransaction()
 
+  console.log(accountDetails)
+ console.log(transactions)
   useEffect(() => {
-    fetchAccountDetails();
-  }, []); 
+    fetchAccountDetails()
+  },[])
 
   if (!accountDetails) return <p>Loading...</p>;
 
@@ -25,16 +27,16 @@ const Dashboard = () => {
       <h3 className='text-graydark text-xl font-semibold'> Inicio </h3>
       </div>
 
-      <section className='w-[90%] mx-auto bg-graydark rounded-lg flex flex-col px-6 py-10 shadow-xl max-w-[600px]'>
+      <section className='w-[90%] mx-auto bg-graydark rounded-lg flex flex-col px-6 py-10 shadow-xl max-w-[600px] relative'>
 
-        <div className='flex flex-row text-white gap-x-4 justify-end'>
+        <div className='flex flex-row text-white gap-x-4 justify-end mb-2'>
           <Link href="" > Ver tarjetas</Link>
           <Link href="" > Ver CVU : {accountDetails?.cvu} </Link>
         </div>
 
         <article className='flex flex-col text-white '>
         <h4 className='text-lg mb-2'> Dinero Disponible </h4>
-        <p className='border border-greenlime w-[80%] text-3xl text-center rounded-3xl p-2 font-semibold'> $ {accountDetails?.available_amount} </p>
+        <span className='border border-greenlime text-2xl text-center rounded-3xl p-2 font-semibold max-w-[250px]'> $ {accountDetails?.available_amount} </span>
         </article>       
 
       </section>
@@ -55,7 +57,22 @@ const Dashboard = () => {
        </section>
 
        <section className='bg-white h-[200px] max-w-[980px] mx-auto w-[90%] mt-4 rounded-xl'>
-
+       {transactions.length === 0 ? (
+        <p>No transactions found.</p>
+      ) : (
+        <ul>
+          {transactions.map(transaction => (
+            <li key={transaction.id}>
+              <p>Amount: {transaction.amount}</p>
+              <p>Date: {transaction.dated}</p>
+              <p>Description: {transaction.description}</p>
+              <p>Origin: {transaction.origin}</p>
+              <p>Destination: {transaction.destination}</p>
+              <p>Type: {transaction.type}</p>
+            </li>
+          ))}
+        </ul>
+      )}
        </section>
 
      

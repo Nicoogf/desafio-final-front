@@ -2,21 +2,18 @@ import axios from "./axios.instanse.js"
 import Cookies from 'js-cookie';
 
 
-//Obtener Nombre Apellido Email Dni
+//Obtener Info del ususario
 
-export const userIdRequest = (userToken) =>  axios.get(`/account` , userToken)
-
-//Obtener Nombre Apellido Email Dni
-
-export const getAccountDetails = async() =>  {
+export const getAccountDetails = async () => {
     try {
         const token = Cookies.get('token')
         console.log(token)
         const response = await axios.get('/account', {
             headers: {
-              Authorization: `${token}`, 
-            }});
-            console.log(response)
+                Authorization: `${token}`,
+            }
+        });
+        console.log(response)
         return response
     } catch (error) {
         console.error('Error during login:', error);
@@ -24,3 +21,18 @@ export const getAccountDetails = async() =>  {
     }
 }
 
+//Obtener transacciones
+
+export const getAccountTransactions = async (accountId ,token) => {
+    try {
+        const response = await axios.get(`/api/accounts/${accountId}/activity`, {
+            headers: {
+                Authorization: `${token}`,
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching account transactions:', error);
+        throw error; 
+    }
+};
