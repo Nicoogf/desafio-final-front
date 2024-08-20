@@ -11,6 +11,7 @@ module.exports = {
         greenlime: '#C1FD35',
         graydark: "#202022",
         greylight: "#3A393E",
+        lightmain: "#E0DDDC"
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

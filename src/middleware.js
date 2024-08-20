@@ -1,18 +1,21 @@
 import { NextResponse } from 'next/server';
-import { parseCookies } from 'nookies';
 
 export function middleware(req) {
-  const cookies = parseCookies({ req });
-  const token = cookies.token;
+
+  const cookies = req.cookies;
+
+  const token = cookies.get('token')?.value;
+
 
   if (!token) {
-    return NextResponse.redirect(new URL('/login', req.url));
+    const loginUrl = new URL('/login', req.nextUrl.origin);
+    return NextResponse.redirect(loginUrl);
   }
-  return NextResponse.next(); 
 
+
+  return NextResponse.next();
 }
-
 
 export const config = {
-  matcher: ['/dashboard/:path*']
-}
+  matcher: ['/dashboard/:path*'],
+};
