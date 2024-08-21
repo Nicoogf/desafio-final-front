@@ -4,13 +4,19 @@ import React from 'react'
 
 import { useAuth } from '@/context/AuthContex';
 import Link from 'next/link';
+import { useAccount } from '@/context/ProfileContext';
+import { useTransaction } from '@/context/transactionContext';
 
 const Dashboard = ({ children }) => {   
 
     const { user } = useAuth()
+    const { accountDetails } = useAccount()
+    const { transactions } = useTransaction()
 
     
-    console.log("DATA:" , user?.username)
+    console.log("DATA:" , user)
+    console.log(accountDetails)
+    console.log(transactions)
 
     return (
         <section className="grid grid-cols-12 w-full max-w-[1920px] mx-auto rounded-xl bg-lime-200 relative overflow-hidden overflow-y-scroll h-[100%]">

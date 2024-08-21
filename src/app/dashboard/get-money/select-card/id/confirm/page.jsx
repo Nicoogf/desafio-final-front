@@ -6,6 +6,7 @@ import { CiCircleCheck } from "react-icons/ci";
 const ConfirmPage = () => {
     return (
         <main>
+             <Link href="/dashboard/get-money/select-card/id" className='mt-8 mb-4 block w-[90%] max-w-[720px] mx-auto text-lg font-semibold cursor-pointer'> Ir Atras </Link>
             <section className='mt-8 shadow-md rounded-lg  p-8 bg-graydark mx-auto w-[90%] max-w-[720px]'>
                 <h6 className='text-xl font-semibold text-greenlime'> Revisa que esta todo bien </h6>
                 <Link href="/" className='flex flex-row gap-x-4 items-center mt-4'>

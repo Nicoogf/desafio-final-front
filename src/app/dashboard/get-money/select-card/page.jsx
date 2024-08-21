@@ -5,6 +5,7 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 const SelecCardPage = () => {
   return (
     <main>
+        <Link href="/dashboard/get-money" className='mt-8 mb-4 block w-[90%] max-w-[720px] mx-auto text-lg font-semibold cursor-point'> Ir Atras </Link>
         <section className='mt-8 w-[90%] mx-auto max-w-[720px] bg-graydark rounded-xl shadow-lg p-8'>
             <h6 className='text-greenlime text-lg font-semibold mb-4'> Seleccionar Tarjeta </h6>
             <section className='w-[100%] mx-auto bg-white rounded-lg p-4'>

@@ -51,10 +51,10 @@ console.log(accountDetails)
       </section>
 
       <section className=' max-w-[980px] mx-auto w-[90%] flex flex-col mt-6 gap-y-4 lg:flex-row lg:gap-x-4'>
-          <Link className='bg-greenlime text-graydark text-center font-bold text-xl rounded-lg p-4 shadow-md lg:w-[50%]' href="/">
-          Transferir Dinero
+          <Link className='bg-greenlime text-graydark text-center font-bold text-xl rounded-lg p-4 shadow-md lg:w-[50%]' href="/dashboard/get-money">
+          Cargar Dinero
           </Link>
-          <Link className='bg-greenlime text-graydark text-center font-bold text-xl rounded-lg p-4 shadow-md lg:w-[50%]' href="/">
+          <Link className='bg-greenlime text-graydark text-center font-bold text-xl rounded-lg p-4 shadow-md lg:w-[50%]' href="/dashboard/pay-services">
           Pagar Servicios
           </Link>
        </section>

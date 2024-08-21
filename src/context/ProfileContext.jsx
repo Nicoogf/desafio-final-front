@@ -1,5 +1,5 @@
 'use client'
-import { createContext, useState, useContext } from 'react';
+import { createContext, useState, useContext, useEffect } from 'react';
 import { getAccountDetails } from '@/axios/profile';
 
 const AccountContext = createContext();
@@ -26,6 +26,11 @@ export const AccountProvider = ({ children }) => {
       console.log('Error fetching account details:', error);
     }
   };
+
+
+  useEffect(()=> {
+    fetchAccountDetails()
+  },[])
 
 
   return (
