@@ -5,12 +5,18 @@ import React, { useEffect, useState }  from 'react'
 import { FaArrowRight } from "react-icons/fa6";
 import { useAccount } from '@/context/ProfileContext';
 import { useTransaction } from '@/context/transactionContext';
+import { formatCurrency } from '@/utils/funcionalidades';
 
 const Dashboard = () => {
   const { accountDetails, fetchAccountDetails  } = useAccount();
   const { transactions,error } = useTransaction()
+  const [ showCVU , setShowCVU ]= useState(false)
+  const amountFormat = formatCurrency(accountDetails?.available_amount)
+  const toggleShowMenu = () => {
+    setShowCVU(!showCVU)
+  }
 
-  console.log(accountDetails)
+console.log(accountDetails)
  console.log(transactions)
   useEffect(() => {
     fetchAccountDetails()
@@ -27,36 +33,39 @@ const Dashboard = () => {
       <h3 className='text-graydark text-xl font-semibold'> Inicio </h3>
       </div>
 
-      <section className='w-[90%] mx-auto bg-graydark rounded-lg flex flex-col px-6 py-10 shadow-xl max-w-[600px] relative'>
+      <section className='w-[90%] mx-auto bg-graydark rounded-lg flex flex-col px-6 pt-8 pb-20 shadow-xl max-w-[980px] relative overflow-hidden'>
 
         <div className='flex flex-row text-white gap-x-4 justify-end mb-2'>
-          <Link href="" > Ver tarjetas</Link>
-          <Link href="" > Ver CVU : {accountDetails?.cvu} </Link>
+          <Link href="/dashboard/cards" className='text-sm cursor-pointer font-semibold'> Ver tarjetas</Link>
+          <h6 href=""  className='text-sm cursor-pointer font-semibold' onClick={toggleShowMenu}> Ver CVU </h6>
         </div>
 
-        <article className='flex flex-col text-white '>
-        <h4 className='text-lg mb-2'> Dinero Disponible </h4>
-        <span className='border border-greenlime text-2xl text-center rounded-3xl p-2 font-semibold max-w-[250px]'> $ {accountDetails?.available_amount} </span>
+        <article className='flex flex-col text-white mt-4'>
+        <h4 className='text-lg font-semibold mb-4'> Dinero Disponible </h4>
+        <span className='border-2 border-greenlime text-2xl text-center rounded-3xl p-2 font-semibold max-w-[250px]'> $ {amountFormat} </span>
         </article>       
 
+        <article className={`transition-all duration-300 bg-greenlime text-semibold absolute bottom-0 right-0 rounded-tl-xl ${!showCVU ? "translate-x-64" : "translate-x-0"} `}>
+          <h6 className='py-2 px-6 font-semibold'> {accountDetails?.cvu} </h6>
+        </article>
       </section>
 
-      <section className=' max-w-[980px] mx-auto w-[90%] flex flex-col mt-6 gap-y-4'>
-          <Link className='bg-greenlime text-graydark text-center font-bold text-xl rounded-lg p-4' href="/">
+      <section className=' max-w-[980px] mx-auto w-[90%] flex flex-col mt-6 gap-y-4 lg:flex-row lg:gap-x-4'>
+          <Link className='bg-greenlime text-graydark text-center font-bold text-xl rounded-lg p-4 shadow-md lg:w-[50%]' href="/">
           Transferir Dinero
           </Link>
-          <Link className='bg-greenlime text-graydark text-center font-bold text-xl rounded-lg p-4' href="/">
+          <Link className='bg-greenlime text-graydark text-center font-bold text-xl rounded-lg p-4 shadow-md lg:w-[50%]' href="/">
           Pagar Servicios
           </Link>
        </section>
 
        <section>
 
-        <input type="text" placeholder='Buscar en tu actividad' className='border-gray-300 border  max-w-[980px] mx-auto w-[90%] block px-2 py-3 rounded-xl mt-4 shadow-lg outline-none font-semibold relative'/>
+        <input type="text" placeholder='Buscar en tu actividad' className='border-gray-300 border  max-w-[980px] mx-auto w-[90%] block px-2 py-3 rounded-xl mt-4 shadow-md outline-none font-semibold relative'/>
         
        </section>
 
-       <section className='bg-white h-[200px] max-w-[980px] mx-auto w-[90%] mt-4 rounded-xl'>
+       <section className='bg-white h-[200px] max-w-[980px] mx-auto w-[90%] mt-4 rounded-xl shadow-md p-4'>
        {transactions.length === 0 ? (
         <p>No transactions found.</p>
       ) : (
