@@ -33,14 +33,14 @@ console.log(accountDetails)
       <h3 className='text-graydark text-xl font-semibold'> Inicio </h3>
       </div>
 
-      <section className='w-[90%] mx-auto bg-graydark rounded-lg flex flex-col px-6 pt-8 pb-20 shadow-xl max-w-[980px] relative overflow-hidden'>
+      <section className='w-[90%] mx-auto bg-graydark rounded-lg flex flex-col px-8 lg:px-20 pt-8 pb-20 shadow-xl max-w-[980px] relative overflow-hidden '>
 
         <div className='flex flex-row text-white gap-x-4 justify-end mb-2'>
           <Link href="/dashboard/cards" className='text-sm cursor-pointer font-semibold'> Ver tarjetas</Link>
           <h6 href=""  className='text-sm cursor-pointer font-semibold' onClick={toggleShowMenu}> Ver CVU </h6>
         </div>
 
-        <article className='flex flex-col text-white mt-4'>
+        <article className='flex flex-col text-white mt-4 '>
         <h4 className='text-lg font-semibold mb-4'> Dinero Disponible </h4>
         <span className='border-2 border-greenlime text-2xl text-center rounded-3xl p-2 font-semibold max-w-[250px]'> $ {amountFormat} </span>
         </article>       
@@ -65,7 +65,7 @@ console.log(accountDetails)
         
        </section>
 
-       <section className='bg-white h-[200px] max-w-[980px] mx-auto w-[90%] mt-4 rounded-xl shadow-md p-4'>
+       <section className='relative bg-white h-[200px] max-w-[980px] mx-auto w-[90%] mt-4 rounded-xl shadow-md p-4'>
        {transactions.length === 0 ? (
         <p>No transactions found.</p>
       ) : (
@@ -82,6 +82,11 @@ console.log(accountDetails)
           ))}
         </ul>
       )}
+
+      <Link href="/dashboard/activity" className='font-semibold text-lg flex flex-row justify-between px-4 my-4'> 
+        <h6> Ver toda tu actividad  </h6>
+        <FaArrowRight />
+      </Link>
        </section>
 
      
