@@ -17,7 +17,8 @@ export const TransactionProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [amount, setAmount] = useState(0);
-
+  const [success, setSuccess] = useState(false);
+  
   const fetchTransactions = async (accountId, token) => {
     try {
       setLoading(true);
@@ -48,8 +49,22 @@ export const TransactionProvider = ({ children }) => {
     }
   };
 
+  const depositAmount = async (accountId, depositData) => {
+    setLoading(true);
+    try {
+        await createDepositRequest(accountId, depositData);
+        setSuccess(true);
+        setError(null);
+    } catch (err) {
+        setError('Error al realizar el depósito. Por favor, intenta de nuevo.');
+        setSuccess(false);
+    } finally {
+        setLoading(false);
+    }
+};
+
   return (
-    <TransactionContext.Provider value={{ transactions, loading, error, fetchTransactions ,handleDeposit,setAmount,amount}}>
+    <TransactionContext.Provider value={{ depositAmount,transactions, loading, error, fetchTransactions ,handleDeposit,setAmount,amount}}>
       {children}
     </TransactionContext.Provider>
   );

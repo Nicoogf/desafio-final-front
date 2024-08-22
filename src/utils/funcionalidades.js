@@ -6,5 +6,11 @@ export function formatCurrency(amount) {
 
   export function lastFourNumbers(number) {
     if (typeof number !== 'number' || isNaN(number)) {
-      return NaN; // O cualquier otro valor que indique un error
+      return NaN; 
   }}
+
+ export function obtenerUltimosResultados(resultados) {    
+    resultados.sort((a, b) => new Date(b.dated) - new Date(a.dated));
+    const ultimosResultados = resultados.slice(0, 10);  
+    return ultimosResultados;
+  }

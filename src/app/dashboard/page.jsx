@@ -5,8 +5,9 @@ import React, { useEffect, useState } from 'react'
 import { FaArrowRight } from "react-icons/fa6";
 import { useAccount } from '@/context/ProfileContext';
 import { useTransaction } from '@/context/transactionContext';
-import { formatCurrency } from '@/utils/funcionalidades';
+import { formatCurrency, obtenerUltimosResultados } from '@/utils/funcionalidades';
 import { useAuth } from '@/context/AuthContex';
+
 
 const Dashboard = () => {
   const { accountDetails, fetchAccountDetails } = useAccount();
@@ -31,6 +32,11 @@ console.log(accountDetails?.id)
   }, [])
 
   if (!accountDetails) return <p>Loading...</p>;
+
+  console.log(transactions)
+
+  const ten_transactions = obtenerUltimosResultados(transactions)
+console.log(ten_transactions)
 
 
 
@@ -97,21 +103,25 @@ console.log(accountDetails?.id)
         <FaArrowRight />
       </Link>
        </section> */}
-      <section className='relative bg-white h-[200px] max-w-[980px] mx-auto w-[90%] mt-4 rounded-xl shadow-md p-4 flex flex-col justify-between'>
+      <section className='relative bg-white h-[200px] max-w-[980px] mx-auto w-[90%] mt-4 rounded-xl shadow-md p-4 flex flex-col justify-between overflow-hidden overflow-y-scroll'>
         {loading && <p>Cargando transacciones...</p>}
         {error && <p>Error: {error}</p>}
-        {transactions.length === 0 && !loading ? (
+        {ten_transactions.length === 0 && !loading ? (
           <p>No se encontraron transacciones.</p>
         ) : (
           <ul>
-            {transactions.map(transaction => (
-              <li key={transaction.id}>
-                <p>Amount: {transaction.amount}</p>
-                <p>Date: {transaction.dated}</p>
-                <p>Description: {transaction.description}</p>
-                <p>Origin: {transaction.origin}</p>
-                <p>Destination: {transaction.destination}</p>
-                <p>Type: {transaction.type}</p>
+            {ten_transactions.map(transaction => (
+              <li key={transaction.id} className='border-b border-gray-300  py-2 flex flex-row  justify-between px-2 items-center'>
+                
+                <div className='flex flex-row gap-x-4'>
+                <div className='bg-greenlime h-5 w-5 rounded-full'/>
+                <p>{transaction.description}</p>
+                </div>
+                <div className='flex flex-col'>
+                <p className='text-end'> $ {transaction.amount} </p>
+                <p className='text-end text-xs text-gray-400'> { new Date( transaction.dated).toLocaleDateString('es-AR')}</p>
+                </div>
+               
               </li>
             ))}
           </ul>
