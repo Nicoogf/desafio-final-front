@@ -17,6 +17,7 @@ export const ServiceProvider = ({ children }) => {
     const [services, setServices] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [selectedServiceId, setSelectedServiceId] = useState(null); 
 
     const fetchServices = async () => {
         try {
@@ -30,12 +31,16 @@ export const ServiceProvider = ({ children }) => {
         }
     };
 
+    const selectService = (id) => {
+        setSelectedServiceId(id); 
+    };
+
     useEffect(() => {
         fetchServices();
     }, []);
 
     return (
-        <ServiceContext.Provider value={{ services, loading, error, fetchServices }}>
+        <ServiceContext.Provider value={{ selectedServiceId , selectService, services, loading, error, fetchServices }}>
             {children}
         </ServiceContext.Provider>
     );

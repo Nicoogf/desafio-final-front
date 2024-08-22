@@ -6,36 +6,3 @@
     display: none;
 }
 
-
-.custom-checkbox {
-    display: inline-block;
-    width: 30px;
-    height: 20px;
-    border-radius: 30%;
-    background-color: rgb(0, 0, 0);
-    border: 2px solid #ccc;
-    cursor: pointer;
-    position: relative;
-    appearance: none; /* Reset browser defaults */
-  }
-  
-  .custom-checkbox::before {
-    content: "";
-    position: absolute;
-    top: 3px;
-    left: 3px;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background-color: rgb(255, 255, 255);
-    transition: all 0.2s ease;
-  }
-  
-  .custom-checkbox:checked::before {
-    left: 15px;
-    background-color: #000000;
-  }
-
-  .custom-checkbox:checked {
-    background-color: #abf500;
-  }

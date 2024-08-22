@@ -1,7 +1,39 @@
-import Link from 'next/link'
-import React from 'react'
+'use client'
+import { useAuth } from '@/context/AuthContex';
+import { useCards } from '@/context/CardContext';
+import { useAccount } from '@/context/ProfileContext';
+import { useRouter } from 'next/navigation';
+import React, { useEffect } from 'react'
+import { useForm } from 'react-hook-form';
 
 const ConfirmPayPage = () => {
+  const { fetchCards, cards } = useCards()
+  const { user } = useAuth();
+  const { accountDetails } = useAccount();
+  const { selectedCardId, setSelectedCardId } = useCards();
+  const { register, handleSubmit, setValue } = useForm();
+  const router = useRouter()
+
+
+  useEffect(() => {
+    if (user) {
+      fetchCards(accountDetails?.id, user.token);
+    }
+  }, [accountDetails,]);
+
+  console.log(cards)
+
+  const onSubmit = (data) => {
+    console.log("Datos del formulario:", data);
+    router.push(`/dashboard/pay-services/${selectedCardId}/confirm`)
+  };
+
+  const handleSelect = (id) => {
+    setSelectedCardId(id);
+    setValue('selectedCard', id);
+  };
+
+  console.log(selectedCardId)
   return (
     <main>
       <section className='mt-8 p-8 shadow-md rounded-lg bg-graydark w-[90%] mx-auto max-w-[720px]'>
@@ -17,40 +49,33 @@ const ConfirmPayPage = () => {
         </div>
       </section>
 
-      <form className='mt-8 w-[90%] mx-auto max-w-[720px]'>
 
-        <section className='bg-white p-8 shadow-md rounded-lg'>
-          <h6 className='text-lg font-semibold'> Tus Tarjetas</h6>
-
-          <section className='flex flex-col gap-y-2'>
-
-            <article className='flex flex-row items-center justify-between py-6 border-b-2 border-gray-400'>
-
+      <form onSubmit={handleSubmit(onSubmit)} className='w-[90%] mx-auto max-w-[720px] bg-white rounded-xl shadow-md p-8 mt-8'>
+        <section className='flex flex-col gap-y-2'>
+          {cards.map(card => (
+            <article
+              key={card.id}
+              className='flex flex-row items-center justify-between py-6 border-b-2 border-gray-400'>
               <div className='flex flex-row items-center gap-x-2'>
                 <div className='h-5 w-5 rounded-full bg-greenlime' />
-                <h6> Terminada en 0000</h6>
+                <h6>Terminada en {card.number_id.toString().slice(-4)}</h6>
               </div>
-
-              <input type="checkbock" className='custom-checkbox' />
-
+              <input
+                type="radio"
+                value={card.id}
+                {...register('selectedCard')}
+                checked={selectedCardId === card.id}
+                onChange={() => handleSelect(card.id)}
+              />
             </article>
-
-            <article className='flex flex-row items-center justify-between py-6 border-b-2 border-gray-400'>
-
-              <div className='flex flex-row items-center gap-x-2'>
-                <div className='h-5 w-5 rounded-full bg-greenlime' />
-                <h6> Terminada en 0000</h6>
-              </div>
-
-              <input type="checkbock" className='custom-checkbox' />
-
-            </article>
-
-          </section>
+          ))}
         </section>
 
-        <Link href="/dashboard/pay-services/id/confirm/success" className='px-20 py-3 rounded-lg bg-greenlime font-semibold mt-4 shadow-md block ml-auto w-[40%] text-center '> Pagar </Link>
 
+
+        <button type="submit" className='mt-4 p-2 bg-greenlime  text-greaydark font-semibold rounded ml-auto block'>
+          Confirmar Selección
+        </button>
       </form>
 
 

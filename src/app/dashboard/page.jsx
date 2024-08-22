@@ -25,7 +25,8 @@ const Dashboard = () => {
     }
   }, [user, accountDetails]);
 
-console.log(accountDetails?.id)
+console.log(accountDetails)
+console.log(user)
 
   useEffect(() => {
     fetchAccountDetails()
