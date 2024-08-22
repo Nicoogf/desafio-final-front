@@ -1,6 +1,6 @@
 'use client'
 import React, { createContext, useContext, useState } from 'react';
-import { CreateCardRequest, DeleteCardRequest, getCardsRequest } from '@/axios/Cards';
+import { CreateCardRequest, DeleteCardRequest, getCardRequest, getCardsRequest } from '@/axios/Cards';
 
 const CardsContext = createContext();
 
@@ -16,6 +16,9 @@ export const CardsProvider = ({ children }) => {
     const [cards, setCards] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [selectedCardId, setSelectedCardId] = useState(null);
+    const [selectedCardData , setSelectedCardData ]= useState(null)
+
 
     const fetchCards = async (accountId, token) => {
         try {
@@ -52,9 +55,19 @@ export const CardsProvider = ({ children }) => {
         }
     };
 
+    const getCard = async(accountId , cardId ) => {
+        try {
+            const cardFound = await getCardRequest(accountId , cardId)
+            console.log(cardFound)
+            setSelectedCardData(cardFound)
+        } catch (error) {
+          setError(error.message || 'Error buscando la tarjeta');
+        }
+    }
+
 
     return (
-        <CardsContext.Provider value={{ cards, loading, error, fetchCards,createCard,deleteCard }}>
+        <CardsContext.Provider value={{ selectedCardData , setSelectedCardData, getCard, selectedCardId, setSelectedCardId ,cards, loading, error, fetchCards,createCard,deleteCard }}>
             {children}
         </CardsContext.Provider>
     );

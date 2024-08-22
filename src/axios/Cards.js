@@ -48,3 +48,20 @@ export const CreateCardRequest = async (accountId, token, cardData) => {
         throw error;
     }
 };
+
+
+
+export const getCardRequest = async (accountId, cardId, token) => {
+    try {
+        const token = Cookies.get('token')
+        const response = await axios.get(`/accounts/${accountId}/cards/${cardId}`, {
+            headers: {
+                Authorization: `${token}`, 
+            }
+        });
+        return response.data; 
+    } catch (error) {
+        console.error("Error fetching card:", error);
+        throw error;
+    }
+};
