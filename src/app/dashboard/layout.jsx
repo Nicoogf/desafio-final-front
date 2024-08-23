@@ -35,11 +35,11 @@ const Dashboard = ({ children }) => {
                 </div>              
             </nav>
 
-            <section className='mt-14 grid col-span-12 lg:col-span-9 xl:col-span-10 bg-lightmain overflow-hidden overflow-y-scroll'>
+            <section className='mt-14 grid col-span-12 lg:col-span-9 xl:col-span-10 bg-lightmain overflow-hidden overflow-y-scroll h-[100%]'>
                 {children}
             </section>
 
-            <footer className='bg-greylight text-greenlime absolute bottom-0 w-full p-3'>
+            <footer className='bg-greylight text-greenlime absolute bottom-0 w-full p-3 hidden lg:flex '>
                 2024 Digital Money House
             </footer>
 

@@ -2,6 +2,7 @@
 import { useAuth } from '@/context/AuthContex';
 import { useCards } from '@/context/CardContext';
 import { useAccount } from '@/context/ProfileContext';
+import { useServices } from '@/context/ServicesContext';
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form';
@@ -12,6 +13,7 @@ const ConfirmPayPage = () => {
   const { accountDetails } = useAccount();
   const { selectedCardId, setSelectedCardId } = useCards();
   const { register, handleSubmit, setValue } = useForm();
+  const {getService ,selectedServiceId,services} = useServices()
   const router = useRouter()
 
 
@@ -25,7 +27,7 @@ const ConfirmPayPage = () => {
 
   const onSubmit = (data) => {
     console.log("Datos del formulario:", data);
-    router.push(`/dashboard/pay-services/${selectedCardId}/confirm`)
+    router.push(`/dashboard/pay-services/${selectedServiceId}/confirm/success`)
   };
 
   const handleSelect = (id) => {
@@ -33,19 +35,24 @@ const ConfirmPayPage = () => {
     setValue('selectedCard', id);
   };
 
+  useEffect(() => {
+      getService(selectedServiceId)
+  } , [])
+
   console.log(selectedCardId)
+  console.log(selectedServiceId)
   return (
     <main>
       <section className='mt-8 p-8 shadow-md rounded-lg bg-graydark w-[90%] mx-auto max-w-[720px]'>
 
         <div className='flex flex-row justify-between items-center px-4 border-b border-gray-700'>
-          <h6 className='py-4 font-semibold text-2xl text-greenlime'> Cablevision </h6>
+          <h6 className='py-4 font-semibold text-2xl text-greenlime'> {services?.name} </h6>
           <h6 className='text-white'> Ver detalles de pago </h6>
         </div>
 
         <div className='flex flex-row items-center justify-between px-4'>
           <h6 className='py-4 text-white font-semibold text-lg'> Total a pagar </h6>
-          <h6 className='py-4 text-white font-semibold text-lg'> $1.785,47 </h6>
+          <h6 className='py-4 text-white font-semibold text-lg'> $ {services?.invoice_value}</h6>
         </div>
       </section>
 

@@ -1,6 +1,6 @@
 'use client'
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { fetchServicesRequest } from '@/axios/services';
+import { fetchServiceRequest, fetchServicesRequest } from '@/axios/services';
 
 const ServiceContext = createContext();
 
@@ -35,12 +35,24 @@ export const ServiceProvider = ({ children }) => {
         setSelectedServiceId(id); 
     };
 
+    const getService = async(id) => {
+        try {
+            setLoading(true);
+            const data = await fetchServiceRequest(id);
+            setServices(data);
+        } catch (err) {
+            setError(err.message || 'Error al obtener los servicios');
+        } finally {
+            setLoading(false);
+        }
+    }
+
     useEffect(() => {
         fetchServices();
     }, []);
 
     return (
-        <ServiceContext.Provider value={{ selectedServiceId , selectService, services, loading, error, fetchServices }}>
+        <ServiceContext.Provider value={{ getService , selectedServiceId , selectService, services, loading, error, fetchServices }}>
             {children}
         </ServiceContext.Provider>
     );

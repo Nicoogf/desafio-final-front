@@ -9,8 +9,12 @@ export function formatCurrency(amount) {
       return NaN; 
   }}
 
- export function obtenerUltimosResultados(resultados) {    
-    resultados.sort((a, b) => new Date(b.dated) - new Date(a.dated));
-    const ultimosResultados = resultados.slice(0, 10);  
-    return ultimosResultados;
-  }
+  export function obtenerUltimosResultados(resultados) {    
+    if (!Array.isArray(resultados)) {
+        console.warn('obtenerUltimosResultados recibió un valor no válido:', resultados);
+        return [];
+    }
+    return resultados
+        .sort((a, b) => new Date(b.dated) - new Date(a.dated))
+        .slice(0, 10);
+}
