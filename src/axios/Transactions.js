@@ -33,3 +33,18 @@ export const createDepositRequest = async (accountId, depositData) => {
     }
 };
 
+
+
+export const fetchTransferencesRequest = async (accountId, token) => {
+  try {
+      const token = Cookies.get('token')
+      const response = await axios.get(`/accounts/${accountId}/transferences`, {
+          headers: {
+              Authorization: `${token}`
+          }
+      });
+      return response.data;
+  } catch (error) {
+      console.log(error)
+  }
+};

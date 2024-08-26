@@ -1,6 +1,6 @@
 'use client'
 import { createContext, useState, useContext, useEffect } from 'react';
-import { createDepositRequest, fetchTransactionsRequest } from '@/axios/Transactions';
+import { createDepositRequest, fetchTransactionsRequest, fetchTransferencesRequest } from '@/axios/Transactions';
 
 const TransactionContext = createContext();
 
@@ -19,17 +19,17 @@ export const TransactionProvider = ({ children }) => {
   const [amount, setAmount] = useState(0);
   const [success, setSuccess] = useState(false);
   
-  const fetchTransactions = async (accountId, token) => {
-    try {
-      setLoading(true);
-      const data = await fetchTransactionsRequest(accountId, token);
-      setTransactions(data);
-    } catch (err) {
-      setError(err.message || 'Error al obtener las transacciones');
-    } finally {
-      setLoading(false);
-    }
-  };
+  // const fetchTransactions = async (accountId, token) => {
+  //   try {
+  //     setLoading(true);
+  //     const data = await fetchTransactionsRequest(accountId, token);
+  //     setTransactions(data);
+  //   } catch (err) {
+  //     setError(err.message || 'Error al obtener las transacciones');
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   const handleDeposit = async (accountId, destination, origin, description = '') => {
     try {
@@ -61,6 +61,27 @@ export const TransactionProvider = ({ children }) => {
     } finally {
         setLoading(false);
     }
+};
+
+const fetchTransactions = async (accountId, token) => {
+  try {
+      setLoading(true);
+      const [transactionsData, transferencesData] = await Promise.all([
+          fetchTransactionsRequest(accountId, token),
+          fetchTransferencesRequest(accountId, token)
+      ]);
+
+      console.log(transferencesData)
+      const combinedData = [...transactionsData, ...transferencesData];
+
+      combinedData.sort((a, b) => new Date(b.dated) - new Date(a.dated));
+
+      setTransactions(combinedData);
+  } catch (err) {
+      setError(err.message || 'Error al obtener las transacciones y transferencias');
+  } finally {
+      setLoading(false);
+  }
 };
 
   return (

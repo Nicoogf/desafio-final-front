@@ -25,12 +25,12 @@ const Dashboard = () => {
         setShowCVU(!showCVU);
     };
 
-    
+
     useEffect(() => {
         fetchAccountDetails();
     }, []);
 
- 
+
     useEffect(() => {
         if (user && accountDetails?.id) {
             fetchTransactions(accountDetails.id, user.token);
@@ -38,9 +38,18 @@ const Dashboard = () => {
     }, [user, accountDetails]);
 
 
+    // useEffect(() => {
+    //     if (Array.isArray(transactions)) {
+    //         const ultimos = obtenerUltimosResultados(transactions);
+    //         setTenTransactions(ultimos);
+    //     } else {
+    //         setTenTransactions([]);
+    //     }
+    // }, [transactions]);
+
     useEffect(() => {
-        if (Array.isArray(transactions)) {
-            const ultimos = obtenerUltimosResultados(transactions);
+        if (Array.isArray(transactions)) {            
+            const ultimos = transactions.slice(0, 10);
             setTenTransactions(ultimos);
         } else {
             setTenTransactions([]); 
@@ -49,8 +58,10 @@ const Dashboard = () => {
 
     if (!accountDetails) return <p>Loading...</p>;
 
+    console.log(transactions)
+
     return (
-        <section className="text-graydark mt-2 p-2 flex flex-col bg-lightmain overflow-hidden overflow-y-scroll">
+        <section className="text-graydark mt-2 p-2 flex flex-col bg-lightmain overflow-hidden overflow-y-scroll h-[calc(100%-112px)]">
             <div className='flex flex-row items-center gap-x-2 cursor-pointer my-2 max-w-[980px] mx-auto w-[90%]'>
                 <FaArrowRight className='text-red-greydark' />
                 <h3 className='text-graydark text-xl font-semibold'> Inicio </h3>
@@ -67,14 +78,14 @@ const Dashboard = () => {
                     <span className='border-2 border-greenlime text-2xl text-center rounded-3xl p-2 font-semibold max-w-[250px]'> $ {amountFormat} </span>
                 </article>
 
-                <CopyToClipboard  text={accountDetails?.cvu} onClick={toggleShowMenu}>
-                <article className={`cursor-pointer transition-all duration-300 bg-greenlime flex flex-row items-center text-semibold absolute bottom-0 right-0 rounded-tl-xl ${!showCVU ? "translate-x-64" : "translate-x-0"} `}
-                onClick={ () => {
-                  toast.success("CVU copiado en el Portapapeles")
-                }} >
-                    <MdOutlineContentCopy className='mx-2'/>
-                    <h6 className='py-2 px-2 font-semibold'> {accountDetails?.cvu} </h6>
-                </article>
+                <CopyToClipboard text={accountDetails?.cvu} onClick={toggleShowMenu}>
+                    <article className={`cursor-pointer transition-all duration-300 bg-greenlime flex flex-row items-center text-semibold absolute bottom-0 right-0 rounded-tl-xl ${!showCVU ? "translate-x-64" : "translate-x-0"} `}
+                        onClick={() => {
+                            toast.success("CVU copiado en el Portapapeles")
+                        }} >
+                        <MdOutlineContentCopy className='mx-2' />
+                        <h6 className='py-2 px-2 font-semibold'> {accountDetails?.cvu} </h6>
+                    </article>
                 </CopyToClipboard>
             </section>
 
@@ -90,6 +101,33 @@ const Dashboard = () => {
             <section>
                 <input type="text" placeholder='Buscar en tu actividad' className='border-gray-300 border max-w-[980px] mx-auto w-[90%] block px-2 py-3 rounded-xl mt-4 shadow-md outline-none font-semibold relative' />
             </section>
+
+            {/* <section className='relative bg-white h-[200px] max-w-[980px] mx-auto w-[90%] mt-4 rounded-xl shadow-md p-4 flex flex-col justify-between overflow-hidden overflow-y-scroll'>
+                {loading && <p>Cargando transacciones...</p>}
+                {error && <p>Error: {error}</p>}
+                {tenTransactions.length === 0 && !loading ? (
+                    <p>No se encontraron transacciones.</p>
+                ) : (
+                    <ul>
+                        {tenTransactions.map(transaction => (
+                            <li key={transaction.id} className='border-b border-gray-300 py-2 flex flex-row justify-between px-2 items-center'>
+                                <div className='flex flex-row gap-x-4'>
+                                    <div className='bg-greenlime h-5 w-5 rounded-full' />
+                                    <p>{transaction.description}</p>
+                                </div>
+                                <div className='flex flex-col'>
+                                    <p className='text-end'> $ {transaction.amount} </p>
+                                    <p className='text-end text-xs text-gray-400'> {new Date(transaction.dated).toLocaleDateString('es-AR')}</p>
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+                )}
+                <Link href="/dashboard/activity" className='font-semibold text-lg flex flex-row justify-between px-4 my-4'>
+                    <h6>Ver toda tu actividad</h6>
+                    <FaArrowRight />
+                </Link>
+            </section> */}
 
             <section className='relative bg-white h-[200px] max-w-[980px] mx-auto w-[90%] mt-4 rounded-xl shadow-md p-4 flex flex-col justify-between overflow-hidden overflow-y-scroll'>
                 {loading && <p>Cargando transacciones...</p>}

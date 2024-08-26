@@ -120,12 +120,13 @@ const ConfirmPage = () => {
 
         const depositData = {
             amount: amount,
-            dated: new Date().toISOString(), // Ajusta la fecha según tu necesidad
+            dated: new Date().toISOString(), 
             destination: `Card ending in ${lastFourNumbers(selectedCardData?.number_id)}`,
-            origin: 'User', // Ajusta el origen según tu necesidad
+            origin: 'User', 
         };
 
         await depositAmount(accountDetails.id, depositData);
+        router.push("/dashboard")
     };
 
     return (
@@ -135,7 +136,7 @@ const ConfirmPage = () => {
                 <h6 className='text-xl font-semibold text-greenlime'> Revisa que esta todo bien </h6>
                 <button onClick={goBack} className='flex flex-row gap-x-4 items-center mt-4'>
                     <div className='text-white'>
-                        <h6> Vas a transferir </h6>
+                        <h6> Vas a depositar </h6>
                         <h6 className='font-semibold text-lg text-start'> ${amount} </h6>
                     </div>
                     <FiEdit className='text-greenlime text-2xl' />
@@ -146,10 +147,10 @@ const ConfirmPage = () => {
                     <h6 className='text-lg font-semibold'> Cuenta Propia </h6>
                 </div>
 
-                <div className='text-white mt-4'>
+                {/* <div className='text-white mt-4'>
                     <h6 className='text-sm'> Tarjeta terminada en  </h6>
                     <h6 className='text-lg font-semibold'> {lastFourNumbers(selectedCardData?.number_id)} </h6>
-                </div>
+                </div> */}
 
                 <button 
                     onClick={handleDeposit}

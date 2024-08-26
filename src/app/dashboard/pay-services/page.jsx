@@ -15,7 +15,7 @@ const PayServicesPage = () => {
 
 
   return (
-    <main>
+    <main className='h-[calc(100%-112px)] overflow-y-auto'>
       <section className='mt-8 w-[90%] mx-auto max-w-[720px]'>
         <input placeholder='Busca entre más de 5.000 empresas' className='block w-full p-2 rounded-md shadow-sm outline-none px-4'/>
       </section>
